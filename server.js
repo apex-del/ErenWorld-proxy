@@ -1,11 +1,15 @@
 import express from "express";
 import fetch from "node-fetch";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const BASE_URL = "https://eren-world.onrender.com/api/v1";
 
-// All endpoints from your JSON
+// ⚡ Enable CORS for all origins
+app.use(cors());
+
+// Endpoint definitions
 const endpoints = [
   { name: "Home", endpoint: "/home" },
   { name: "A-Z List", endpoint: "/animes/az-list/:letter" },
@@ -36,7 +40,7 @@ const endpoints = [
   { name: "Stream", endpoint: "/stream" },
 ];
 
-// Default queries for endpoints that need them
+// Default queries
 const defaultQueries = {
   "/animes/az-list/:letter": { page: 1 },
   "/animes/top-airing": { page: 1 },
@@ -65,12 +69,10 @@ const defaultQueries = {
 const fetchData = async (endpoint, params = {}, queries = {}) => {
   let url = `${BASE_URL}${endpoint}`;
 
-  // Replace params
   Object.keys(params).forEach(key => {
     url = url.replace(`:${key}`, params[key]);
   });
 
-  // Merge default + user queries
   const defaults = defaultQueries[endpoint] || {};
   const finalQueries = { ...defaults, ...queries };
   const queryString = new URLSearchParams(finalQueries).toString();
@@ -97,7 +99,7 @@ endpoints.forEach(ep => {
 
 // Health check
 app.get("/", (req, res) => {
-  res.send("✅ Proxy API is running...");
+  res.send("✅ Proxy API with CORS is running...");
 });
 
 app.listen(PORT, () => {
