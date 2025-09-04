@@ -1,7 +1,7 @@
 {
   "name": "eren-world-proxy",
   "version": "1.0.0",
-  "description": "Proxy API for Eren World using HiAnime endpoints",
+  "description": "Proxy API for Eren World using HiAnime endpoints with CORS enabled",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "express": "^4.19.2",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
